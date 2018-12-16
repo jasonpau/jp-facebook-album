@@ -1,0 +1,12 @@
+{
+    "name": "jasonpau/jp-facebook-album",
+    "require": {
+        "facebook/graph-sdk": "^5.7"
+    },
+    "authors": [
+        {
+            "name": "Jason Pau",
+            "email": "jason@jasonpau.com"
+        }
+    ]
+}
