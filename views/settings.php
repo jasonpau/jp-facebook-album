@@ -42,10 +42,12 @@ if ( isset( $login_url ) ) {
     $auth_f = <<<HTML
         <hr />
         <h3>Authentication</h3>
+        <p><strong>Long-lived Access Token:</strong> %s</p>
+        <p><strong>Expiration:</strong> %s</p>
         <p><a href="%s">Authenticate App with Facebook</a></p>
 HTML;
 
-    $output .= sprintf( $auth_f, esc_html( $login_url ) );
+    $output .= sprintf( $auth_f, $this->access_token, $this->access_token_expiration, esc_html( $login_url ) );
 }
 
 print( $output );
