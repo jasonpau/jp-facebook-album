@@ -7,7 +7,6 @@ if (! defined('ABSPATH')) {
 
 class JpFacebookAlbum {
 
-    const CALLBACK_URL = 'https://jasonpau.io/blog/wp-admin/options-general.php?page=facebook-album';
     const GRAPH_BASE_URL = 'https://graph.facebook.com';
     const DEFAULT_GRAPH_VERSION = 'v3.2';
     const NUMBER_OF_IMAGES = 9;
@@ -20,6 +19,7 @@ class JpFacebookAlbum {
             session_start();
         }
 
+        $this->CALLBACK_URL = get_site_url() . '/wp-admin/options-general.php?page=facebook-album';
         $this->code = isset( $_GET['code'] ) ? $_GET['code'] : null;
 
         if ( ! empty( $_POST['app_id'] ) ) {
@@ -84,7 +84,6 @@ class JpFacebookAlbum {
         if ( $this->app_id && $this->app_secret ) {
             $login_url = $this->get_authorize_login_url();
         }
-
         require_once __DIR__ . '/../views/settings.php';
     }
 
@@ -92,9 +91,8 @@ class JpFacebookAlbum {
         $jp_facebook_album = new JpFacebookAlbum();
         $album = $jp_facebook_album->get_album();
 
-        wp_enqueue_style( 'jp-facebook-album-styles', plugins_url() . '/jp-facebook-album/css/styles.css', array(), '1.0.2' );
-        wp_enqueue_script( 'masonry-pkgd', plugins_url() . '/jp-facebook-album/js/masonry.pkgd.js', array(), '1.0.0', true );
-        wp_enqueue_script( 'jp-facebook-album-script', plugins_url() . '/jp-facebook-album/js/main.js', array( 'jquery' ), '1.0.0', true );
+        wp_enqueue_style( 'jp-facebook-album-styles', plugins_url() . '/jp-facebook-album/css/styles.css', array(), '1.0.5' );
+        wp_enqueue_script( 'jp-facebook-album-script', plugins_url() . '/jp-facebook-album/js/main.js', array( 'jquery', 'underscore' ), '1.1.0', true );
         wp_localize_script( 'jp-facebook-album-script', 'facebook_album_photos', $album );
 
         ob_start();
@@ -109,13 +107,13 @@ class JpFacebookAlbum {
      */
 
     private function get_album() {
-        //$cached_album = get_transient( 'jp_facebook_album_image_data' );
+        $cached_album = get_transient( 'jp_facebook_album_image_data' );
 
         // Do we still have a valid cached album?
-        if ( ! isset( $cached_album ) ) {
-            $album = $this->get_album_from_api();
-        } else {
+        if ( $cached_album ) {
             $album = $cached_album;
+        } else {
+            $album = $this->get_album_from_api();
         }
 
         return $album;
@@ -160,7 +158,7 @@ class JpFacebookAlbum {
         unset( $album['photos']['paging'] );
 
         // Cached the data for one hour.
-        //set_transient( 'jp_facebook_album_image_data', $album, 60*60*1 );
+        set_transient( 'jp_facebook_album_image_data', $album, 60*60*1 );
 
         // Return the data too so we don't have to make two DB calls.
         return $album;
@@ -182,7 +180,7 @@ class JpFacebookAlbum {
         $helper = $fb->getRedirectLoginHelper();
 
         $permissions = ['email']; // Optional permissions TODO possibly remove?
-        $loginUrl = $helper->getLoginUrl( self::CALLBACK_URL, $permissions );
+        $loginUrl = $helper->getLoginUrl( $this->CALLBACK_URL, $permissions );
 
         return $loginUrl;
     }

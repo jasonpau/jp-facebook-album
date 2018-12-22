@@ -1,4 +1,23 @@
-.grid-sizer,
-.grid-item {
-    width: 20%;
+.jp-facebook-grid {
+    display: -ms-grid;
+    display: grid;
+    grid-gap: 8px;
+    grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
+    grid-auto-rows: 1px;
+}
+
+.jp-facebook-grid .grid__item {
+    -ms-grid-row-span: var(--row-span, 20);
+    grid-row-end: span var(--row-span, 20);
+}
+
+.jp-facebook-grid .grid__item img {
+    width: 100%;
+    border-radius: 0px;
+}
+
+.jp-facebook-grid .grid__item .cover {
+    height: 100%;
+    -o-object-fit: cover;
+       object-fit: cover;
 }

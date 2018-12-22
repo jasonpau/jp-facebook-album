@@ -45,9 +45,16 @@ if ( isset( $login_url ) ) {
         <p><strong>Long-lived Access Token:</strong> %s</p>
         <p><strong>Expiration:</strong> %s</p>
         <p><a href="%s">Authenticate App with Facebook</a></p>
+        <hr />
+        <h3>Cache</h3>
+        <pre>%s</pre>
 HTML;
 
-    $output .= sprintf( $auth_f, $this->access_token, $this->access_token_expiration, esc_html( $login_url ) );
+    $output .= sprintf( $auth_f,
+                        $this->access_token,
+                        $this->access_token_expiration,
+                        esc_html( $login_url ),
+                        json_encode( get_transient( 'jp_facebook_album_image_data' ) ) );
 }
 
 print( $output );

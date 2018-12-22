@@ -12,7 +12,7 @@ $grid_items = '';
 if ( is_array( $photos ) ) {
     foreach ( $photos as $photo ) {
         $grid_item_f = <<<HTML
-            <div class="grid-item">
+            <div class="grid__item">
                 <a href="%s" target="_blank" rel="noopener">
                     <img src="%s" alt="" />
                 </a>
@@ -27,9 +27,8 @@ HTML;
 
 $gallery_f = <<<HTML
 <div class="jp-facebook-grid">
-    <div class="grid-sizer"></div>
     %s
-<div>
+</div>
 HTML;
 
 printf( $gallery_f, $grid_items );
