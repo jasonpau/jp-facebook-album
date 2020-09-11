@@ -16,7 +16,7 @@ class JpFacebookAlbum {
         // We use the session to hold the 'FBRLH_state' key, and it gets
         // compared upon return to the callback page to prevent CSRF attacks.
         if ( !session_id() ) {
-            session_start();
+            session_start( array( 'read_and_close' => true ) );
         }
 
         $this->CALLBACK_URL = get_site_url() . '/wp-admin/options-general.php?page=facebook-album';
@@ -168,7 +168,7 @@ class JpFacebookAlbum {
         // Session is necessary for initial authorization, as we leave
         // the site for Facebook, then come back via redirect URI
         if ( ! session_id() ) {
-            session_start();
+            session_start( array( 'read_and_close' => true ) );
         }
 
         $fb = new Facebook\Facebook([

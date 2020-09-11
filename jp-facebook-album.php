@@ -3,7 +3,7 @@
  * Plugin Name: JP Facebook Album
  * Plugin URI: https://github.com/jasonpau/jp-facebook-album/
  * Description: A simple plugin that adds a basic WP admin interface for authenticating with Facebook's Graph API
- * Version: 1.0.1
+ * Version: 1.0.2
  * Author: Jason Pau
  * Author URI: https://jasonpau.io
  */
