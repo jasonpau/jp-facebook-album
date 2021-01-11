@@ -19,7 +19,7 @@ class JpFacebookAlbum {
             session_start( array( 'read_and_close' => true ) );
         }
 
-        $this->CALLBACK_URL = get_site_url() . '/wp-admin/options-general.php?page=facebook-album';
+        $this->callback_url = get_site_url() . '/wp-admin/options-general.php?page=facebook-album';
         $this->code = isset( $_GET['code'] ) ? $_GET['code'] : null;
 
         if ( ! empty( $_POST['app_id'] ) ) {
@@ -42,7 +42,7 @@ class JpFacebookAlbum {
         $this->access_token_expiration = get_option( 'jp_facebook_album_long_lived_access_token_expiration', null );
     }
 
-    // Here's where we start hooking everythin into WordPress
+    // Here's where we start hooking everything into WordPress
     public function bind_to_wordpress() {
         add_filter( 'widget_text', 'do_shortcode' );
         add_action( 'admin_menu', array( $this, 'admin_page' ), 100 );
@@ -180,7 +180,7 @@ class JpFacebookAlbum {
         $helper = $fb->getRedirectLoginHelper();
 
         $permissions = ['email']; // Optional permissions TODO possibly remove?
-        $loginUrl = $helper->getLoginUrl( $this->CALLBACK_URL, $permissions );
+        $loginUrl = $helper->getLoginUrl( $this->callback_url, $permissions );
 
         return $loginUrl;
     }
