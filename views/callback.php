@@ -76,4 +76,5 @@ if (! $accessToken->isLongLived()) {
 $accessTokenString = (string) $accessToken;
 
 update_option( 'jp_facebook_album_long_lived_access_token', $accessTokenString );
-update_option( 'jp_facebook_album_long_lived_access_token_expiration', $tokenMetadata->getExpiresAt()->format('Y-m-d H:i:s') );
+
+echo '<h3>All done!</h3>';
